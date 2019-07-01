@@ -1,0 +1,351 @@
+﻿
+==================================
+DESCRIPTION DES 4 ZONES
+==================================
+---------------------------------
+ZONE 1:
+"working directory" (ou "workspace")
+> Le dossier dans lequel je travaille localement sur mon ordinateur.
+---------------------------------
+ZONE 2:
+"staging area" (ou "index")
+> Zone temporaire, zone de transition entre l'ordinateur local et le "local repository".
+---------------------------------
+ZONE 3:
+"local repository"
+> Endroit mystérieux où j'arrive après un commit, mais avant un push.
+---------------------------------
+ZONE 4:
+"remote repository"
+> Destination ultime, c'est l'endroit où j'arrive lorsque mon push a bien fonctionné.
+---------------------------------
+
+
+
+==================================
+COMMANDES UTILES EN GÉNÉRAL
+==================================
+---------------------------------
+git status
+> Ça donne l'état de la situation du repo en question.
+---------------------------------
+git checkout nom_de_la_branche
+> Ça fait changer de branche, ça change les fichier que je vois sur ma machine.
+---------------------------------
+git reset
+> Ça annule mon "git add *", mais mon "working directory" ne change pas.
+> *attention* Je répète, mon "working directory" ne sera pas modifé (le dossier sur ma machine).
+> *attention* Ça fonctionne uniquement AVANT un commit.
+---------------------------------
+
+
+
+==================================
+CONSEILS
+==================================
+---------------------------------
+(1) FAITES BEAUCOUP DE COMMIT ET DE PUSH DANS VOTRE BRANCHE
+> Lorsque vous avez beaucoup de commit, ça fait moins mal de revenir au commit précédent.
+---------------------------------
+(2) FAITES TOUJOURS UN BACK-UP DU PROJET AVANT D'INCORPORER LE MASTER DANS VOTRE BRANCHE
+> Copiez le projet temporairement dans un autre endroit dans votre machine!
+> Lorsque vous ajoutez le master à votre branche, il se peut que votre travail soit perdu.
+> Soyez prudents!
+---------------------------------
+
+
+
+==================================
+QUESTIONS & RÉPONSES
+==================================
+-------------------------------------------------
+COMMENT PUIS-JE AJOUTER MES MODIFS À MA BRANCHE?
+-------------------------------------------------
+----------------------------
+--> résumé de la procédure:
+----------------------------
+git checkout nom_de_ma_branche
+git add *
+git commit -m "mon message"
+git push
+(ou "git push --set-upstream origin nom_de_ma_branche" voir détails plus bas)
+------------------
+--> explications:
+------------------
+> Première étape:
+git checkout nom_de_ma_branche
+> Avant de faire quoi que ce soit, je veux m'assurer que je suis sur ma branche.
+
+> Prochaine étape:
+git add *
+> Je n'ai pas besoin de faire un pull parce qu'il y a juste moi qui travaille sur ma branche.
+> Ça copie toutes les modifs de mon "working directory" et ça les déposent dans le "staging area".
+
+> Prochaine étape:
+git commit -m "mon message"
+> Ça transfert les modifications du "staging area" au "local repository".
+
+> Prochaine étape:
+
+> 1re option:
+git push --set-upstream origin nom_de_ma_branche
+> Grâce à cette commande, les prochaines fois que je vais faire un push,
+> git va automatiquement faire "git push origin nom_de_ma_branche" lorsque j'écrirai "git push"
+
+> 2e option
+git push
+> Ça fonctionne uniquement si j'ai lancé la commande "git push --set-upstream origin nom_de_ma_branche" dans le passé.
+---------------------------------
+
+
+
+-----------------------------------------------------
+COMMENT PUIS-JE METTRE À JOUR MA VERSION DU MASTER?
+-----------------------------------------------------
+----------------------------
+--> résumé de la procédure:
+----------------------------
+git checkout master
+git pull
+git checkout nom_de_ma_branche
+------------------
+--> explications:
+------------------
+> Lors d'une période de travail en classe, il y a de fortes chances que le master soit modifié par quelqu'un.
+> Afin d'éviter que mon master soit désuet, il faut que je fasse des pull assez régulièrement.
+
+> Première étape:
+git checkout master
+> ça me place dans la branche principale (mon "working directory" est modifié sur mon ordinateur)
+
+> Prochaine étape:
+git pull
+> Ça va copier le master du "remote repository" et le coller sur mon "working directory".
+> Note: dans le master, les commandes "git pull" et "git push" fonctionnent sans les mots clés "origin master".
+> Note: MA BRANCHE N'A PAS ÉTÉ MODIFIÉE.
+
+> Prochain étape:
+git checkout nom_de_ma_branche
+> Je retourne tout de suite dans ma branche pour éviter de briser le master.
+---------------------------------
+
+
+
+-----------------------------------------------------------
+COMMENT PUIS-JE AJOUTER LES MODIFS DU MASTER À MA BRANCHE?
+-----------------------------------------------------------
+----------------------------
+--> résumé de la procédure:
+----------------------------
+> *attention* Je fais toujours un BACK-UP de mon travail avant de faire mon merge!
+> AJOUTER MES MODIFS À MA BRANCHE (consulter la question pr + de détails)
+> METTRE À JOUR MA VERSION DU MASTER (consulter la question pr + de détails)
+git checkout nom_de_ma_branche
+git merge master
+git push
+------------------
+--> explications:
+------------------
+> Première étape:
+> Avant de faire quoi que ce soit, je me fais un back-up de mon travail.
+
+> Prochaine étape:
+> Je m'assure que toutes mes modifications ont été ajoutées à ma branche.
+> Veuillez consulter la question "COMMENT PUIS-JE AJOUTER MES MODIFS À MA BRANCHE?" pour plus de détails.
+
+> Prochaine étape:
+> Une fois que ma branche est à jour, je dois vérifier que mon master est à jour aussi.
+> Veuillez consulter la question "COMMENT PUIS-JE METTRE À JOUR MA VERSION DU MASTER?" pour plus de détails.
+
+> Prochaine étape:
+git checkout nom_de_ma_branche
+> Je m'assure que je suis dans ma branche.
+
+> Prochaine étape:
+git merge master
+> Merge est une commande qui sert à combiner deux branches.
+> Git va faire une tentative de merge, c'est possible que ça ne fonctionne pas.
+> Si ça ne fonctionne pas, il y a beaucoup de possibilités... mais en général ça se passe assez bien.
+> Si jamais il y a des conflits il faut aller les régler manuellement.
+> Git va nommer les fichiers où il y a des problèmes.
+> Je rentre dans un des fichiers, je fais Ctrl+f et je cherche "HEAD".
+> Je m'arrange pour régler les lignes problématiques.
+> Si c'est trop compliqué, je demande à un de mes coéquipiers de m'aider.
+
+> Prochain étape:
+git push
+> Note: le master n'a pas été modifié. Ma branche est en avance par rapport au master.
+---------------------------------
+
+
+
+----------------------------------------------
+COMMENT PUIS-JE AJOUTER MES MODIFS AU MASTER?
+----------------------------------------------
+----------------------------
+--> résumé de la procédure:
+----------------------------
+> AJOUTER LES MODIFS DU MASTER À MA BRANCHE
+git checkout master
+git merge nom_de_ma_branche
+git push
+git checkout nom_de_ma_branche
+------------------
+--> explications:
+------------------
+> *attention* Il est fort possible que cette étape prenne beaucoup de temps.
+> Utilisez votre jugement, ne modifiez pas le master 5 minutes avant la fin du cours!
+> *attention* Il est important de consulter les autres membres de l'équipe avant de modifier le master.
+
+> Première étape:
+> J'ajoute le master à ma branche et je m'assure que MA VERSION EST FONCTIONNELLE.
+> Veuillez consulter la question "COMMENT PUIS-JE AJOUTER LES MODIFS DU MASTER À MA BRANCHE?" pour plus de détails.
+
+> Prochaine étape:
+git checkout master
+> Mon master et ma branche sont à jour.
+> J'ai ajouté le master dans ma branche et elle fonctionne bien.
+> Il faut que ma branche fonctionne bien, parce qu'elle va devenir le nouveau master!
+> Je vais dans la branche master dans le but de merge ma branche avec le master.
+
+> Prochaine étape:
+git merge nom_de_ma_branche
+> Merge est une commande qui sert à combiner deux branches.
+> Git va faire une tentative de merge, c'est possible que ça ne fonctionne pas.
+> Si ça ne fonctionne pas, il y a beaucoup de possibilités... mais en général ça se passe assez bien.
+> Si jamais il y a des conflits il faut aller les régler manuellement.
+> Git va nommer les fichiers où il y a des problèmes.
+> Je rentre dans un des fichiers, je fais Ctrl+f et je cherche "HEAD".
+> Je m'arrange pour régler les lignes problématiques.
+> Si c'est trop compliqué, je demande à un de mes coéquipiers de m'aider.
+
+> Prochain étape:
+git push
+
+> Prochaine étape:
+git checkout nom_de_ma_branche
+> Je retourne tout de suite dans ma branche pour éviter de briser le master.
+---------------------------------
+
+
+
+------------------------------------------------------------
+COMMENT PUIS-JE REMETTRE MA BRANCHE À SON COMMIT PRÉCÉDENT?
+------------------------------------------------------------
+----------------------------
+--> résumé de la procédure:
+----------------------------
+git reset code_du_commit_precedent
+git push --force
+(Gérer le rouge s'il y en a...)
+(Souvent il faut utiliser "git checkout -- ." pr oublier les modifs)
+(Des fois il faut utiliser "git clean -fd" pr supprimer les fichiers des "untracked files")
+------------------
+--> explications:
+------------------
+> Ma branche est fuckée suite à mon dernier commit.
+> Pas de panique!
+> Je vais revenir dans le passé et toutes mes modifs temporaires seront effacées.
+> Donc oui un peu de panique, mais pas tant que ça.
+
+> Première étape:
+> J'utilise le site web de GitHub pour copier le code de mon dernier commit.
+
+> Prochaine étape:
+git reset code_du_commit_precedent
+> Le curseur se place au commit précédent.
+
+> Prochaine étape:
+git push --force
+> Les commits après le curseur seront effacés.
+
+> S'il y a des fichiers en rouge, il faut s'en débarrasser...
+> Veuillez consulter la question "GIT ME GÂCHE LA VIE EN METTANT UN PAQUET D'INFORMATION EN ROUGE JE CAPOTE" pour plus de détails.
+---------------------------------
+
+
+
+-----------------------------------------------------------
+COMMENT PUIS-JE REMETTRE LE MASTER À SON COMMIT PRÉCÉDENT?
+-----------------------------------------------------------
+----------------------------
+--> résumé de la procédure:
+----------------------------
+git checkout master
+git reset code_du_commit_precedent
+git push --force
+(Gérer le rouge s'il y en a...)
+(Souvent il faut utiliser "git checkout -- ." pr oublier les modifs)
+(Des fois il faut utiliser "git clean -fd" pr supprimer les fichiers des "untracked files")
+git checkout nom_de_ma_branche
+------------------
+--> explications:
+------------------
+> Catastrophe! Le master est fucké suite à mon dernier commit.
+> Pas de panique!
+> Je vais retourner au commit précédent.
+
+> Première étape:
+> J'utilise le site web de GitHub pour copier le code du commit précédent.
+
+> Prochaine étape:
+git checkout master
+> Je m'assure que je suis dans le master.
+
+> Prochaine étape:
+git reset code_du_commit_precedent
+> Le curseur se place au commit précédent.
+
+> Prochaine étape:
+git push --force
+> Les commits après le curseur seront effacés.
+
+> S'il y a des fichiers en rouge, il faut s'en débarrasser...
+> Veuillez consulter la question "GIT ME GÂCHE LA VIE EN METTANT UN PAQUET D'INFORMATION EN ROUGE JE CAPOTE" pour plus de détails.
+
+> Prochaine étape:
+git chekcout nom_de_ma_branche
+> Je retourne tout de suite dans ma branche pour éviter de briser le master.
+---------------------------------
+
+
+
+--------------------------------------------------------------------------
+GIT ME GÂCHE LA VIE EN METTANT UN PAQUET D'INFORMATION EN ROUGE JE CAPOTE
+--------------------------------------------------------------------------
+----------------------------
+--> résumé de la procédure:
+----------------------------
+n/a
+------------------
+--> explications:
+------------------
+> Il y a plusieurs situations où il y a du rouge à l'écran.
+> En voici quelques unes:
+
+> (1) Lorsqu'il y a des trucs en rouge AVANT UN COMMIT:
+git checkout -- .
+
+> (2) Je veux que les fichiers que j'ai supprimés disparaissent!
+git add -u
+git commit -m "mon message"
+git push
+
+> (3) J'aimerais seulement garder une partie de mes modifications:
+git checkout fichier1_avec_des_modifs_à_oublier
+git checkout fichier2_avec_des_modifs_à_oublier
+git add *
+git commit -m "mon message"
+git push
+
+> (4) J'aimerais enlever la section "untracked files":
+git clean -fd
+---------------------------------
+
+
+
+
+
+
+
+
